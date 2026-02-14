@@ -11,7 +11,7 @@ public class ResponseValidator {
 	 * @param body:  the response body converted to an object
 	 * @param field: the field to check
 	 * 
-	 *               { "id": 1}
+	 *               example: { "id": 1}
 	 * @throws: AssertionError
 	 */
 	public static void assertFieldNotNull(Map<String, Object> body, String field) {
@@ -26,21 +26,18 @@ public class ResponseValidator {
 	 * @param key:   key of nested object
 	 * @param field: the field to check (ex: "firstname")
 	 * 
-	 * ex: { "name": { "firstname": "john", "lastname": "doe" } }
+	 *               example: { "name": { "firstname": "john", "lastname": "doe" } }
 	 * 
 	 * @throws: AssertionError
 	 */
 	public static void assertNestedFieldNotNull(Map<String, Object> body, String key, String field) {
-
 		Object nestedObject = body.get(key); // key is the "name" field in our test case (see console)
+		assertNotNull(key + "' is null", nestedObject); // check if nested object is not null
+		assertTrue(key + "'  is not a JSON object", nestedObject instanceof Map); // check if nested object is a JSON
+																					// object
+		Map<String, Object> nestedMap = (Map<String, Object>) nestedObject; // Cast nestedObject from Object to
+																			// Map<String, Object>
+		assertNotNull(field + "' field in the '" + key + "' object must not be null", nestedMap.get(field)); // check if field of nestedObject is not null																											// null
 
-		assertNotNull("The key '" + key + "' is null", nestedObject); // check if nested object is not null
-
-		assertTrue("The key '" + key + "'  is not a JSON object", nestedObject instanceof Map); // check if nested object is a JSON object
-		
-		Map<String, Object> nestedMap = (Map<String, Object>) nestedObject; // Cast nestedObject from Object to Map<String, Object>
-
-		assertNotNull("The '" + field + "' field in the '" + key + "' object must not be null", nestedMap.get(field)); // check if field in the nested object is not null
-	
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.api.cucumbersteps;
 
 import io.cucumber.java.en.*;
+
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -27,12 +28,34 @@ public class UserSteps {
 		restTemplate.setMessageConverters(Collections.singletonList(new MappingJackson2HttpMessageConverter()));
 	}
 
+	/**
+	 * Custom step that create a new user with json file payload
+	 * 
+	 * @param jsonFileName: the json file name
+	 * @throws IOException
+	 **/
 	@Given("I create the user from {string}")
 	public void loadUserPayload(String jsonFileName) throws IOException {
-		File jsonFile = new File("src/test/java/ressouces/data/" + jsonFileName + ".json");
-		String json = new String(Files.readAllBytes(jsonFile.toPath()));
+		try {
+			File jsonFile = new File("src/test/java/resouces/data/Create/" + jsonFileName + ".json");
+			String json = new String(Files.readAllBytes(jsonFile.toPath()));
 
-		// to do ...
+			// Create Content-Type application/json header
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+
+			// Create HttpEntity for send json payload & headers
+			HttpEntity<String> entity = new HttpEntity<>(json, headers);
+
+			// New RestTemplate instance for post http
+			RestTemplate restTemplate = new RestTemplate();
+
+			// POST request
+			response = restTemplate.postForEntity(baseUrl, entity, Map.class);
+		} catch (IOException e) {
+			throw new IOException(e); // Catch Exception
+		}
+
 	}
 
 	/** Custom step that get user by ID **/
@@ -54,7 +77,10 @@ public class UserSteps {
 		ResponseValidator.assertFieldNotNull(response.getBody(), field);
 	}
 
-	/** Reusable step that checks if a field in a JSON object of the response is not null **/
+	/**
+	 * Reusable step that checks if a field in a JSON object of the response is not
+	 * null
+	 **/
 	@And("The {string} object of body response contains the not null {string} field")
 	public void the_field_of_body_response_is_not_null(String key, String field) {
 		ResponseValidator.assertNestedFieldNotNull(response.getBody(), key, field);

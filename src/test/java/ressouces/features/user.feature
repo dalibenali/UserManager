@@ -16,6 +16,12 @@ Feature: User management
       |      1 |
       |      2 |
 
-  Scenario: Create a user using
-    Given I check the API status 200
-# to do #    Then I create the user from "fileName"
+  @CreateUser
+	Scenario Outline: Create a user using <fileName>.json
+    Given I create the user from <fileName>
+    Then I check the API statusCode 201
+    And The "id" field of body response is not null 
+  Examples:
+    | fileName       |
+    | "user1Payload" |
+    | "user2Payload" | 

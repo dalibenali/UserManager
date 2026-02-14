@@ -8,7 +8,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
         features = "src/test/java/ressouces/features/user.feature",
         glue = "com/example/api/cucumbersteps",
-        tags = "@GetUserById",
+        tags = "@UserManagement",
         plugin = {"pretty"}
 )
 public class CucumberTestRunner {
