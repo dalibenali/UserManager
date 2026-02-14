@@ -6,7 +6,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/java/ressouces/features/user.feature",
+        features = "src/test/java/resources/features/user.feature",
         glue = "com/example/api/cucumbersteps",
         tags = "@UserManagement",
         plugin = {"pretty"}

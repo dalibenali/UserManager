@@ -37,7 +37,7 @@ public class UserSteps {
 	@Given("I create the user from {string}")
 	public void loadUserPayload(String jsonFileName) throws IOException {
 		try {
-			File jsonFile = new File("src/test/java/resouces/data/Create/" + jsonFileName + ".json");
+			File jsonFile = new File("src/test/java/resources/data/Create/" + jsonFileName + ".json");
 			String json = new String(Files.readAllBytes(jsonFile.toPath()));
 
 			// Create Content-Type application/json header
