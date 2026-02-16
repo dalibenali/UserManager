@@ -35,8 +35,7 @@ public class UserSteps {
 	 * @throws IOException
 	 **/
 	@Given("I create the user from {string}")
-	public void loadUserPayload(String jsonFileName) throws IOException {
-		try {
+	public void createUser(String jsonFileName) throws IOException {
 			File jsonFile = new File("src/test/java/resources/data/Create/" + jsonFileName + ".json");
 			String json = new String(Files.readAllBytes(jsonFile.toPath()));
 
@@ -52,9 +51,6 @@ public class UserSteps {
 
 			// POST request
 			response = restTemplate.postForEntity(baseUrl, entity, Map.class);
-		} catch (IOException e) {
-			throw new IOException(e); // Catch Exception
-		}
 
 	}
 
